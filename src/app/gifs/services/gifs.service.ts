@@ -23,8 +23,18 @@ export class GifService {
     
     private http = inject(HttpClient);
 
-    trendingGifs = signal<Gif[]>([]);
+    trendingGifs = signal<Gif[]>([]); // [gif, gif, gif, gif, gif]
     trendingGifsLoading = signal(true);
+
+    // [[gif, gif, gif], [gif, gif, gif], [gif, gif, gif]]
+    trendingGifGroup = computed<Gif[][]>(() => {
+      const groups = [];
+      for( let i = 0; i < this.trendingGifs().length; i +=3){
+        groups.push( this.trendingGifs().slice(i, i+3) );
+      }
+      console.log(groups);
+      return groups; 
+    })
 
     searchHistory = signal<Record<string, Gif[]>>(loadFormLocalStorage())
     searchHistoryKeys = computed(() => Object.keys(this.searchHistory()));
