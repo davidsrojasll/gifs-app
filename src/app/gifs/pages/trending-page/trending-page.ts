@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, ElementRef, inject, signal, viewChild } from '@angular/core';
 import { GifList } from "../../components/gif-list/gif-list";
 import { GifService } from '../../services/gifs.service';
@@ -32,7 +33,18 @@ export default class TredingPage {
   
   onScroll(event: Event){
     const scrollDiv = this.scrollDivRef()?.nativeElement;
-    console.log(scrollDiv);
+    if( !scrollDiv ) return;
+
+    const scrollTop = scrollDiv.scrollTop;
+    const clientHeight = scrollDiv.clientHeight;
+    const scrollHeight = scrollDiv.scrollHeight;
+
+    //console.log({scrollTop, clientHeight, scrollHeight});
+
+    const isAtBottom = scrollTop + clientHeight + 300 >= scrollHeight;
+    if( isAtBottom ){
+      // TODO  cargar la siguiente página de gifs
+    }
   }
   
 }
